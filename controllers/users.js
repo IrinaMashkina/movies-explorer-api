@@ -7,6 +7,7 @@ const NotFoundError = require("../errors/not-found-err");
 const BadRequestError = require("../errors/bad-request-err");
 const DubbleError = require("../errors/dubble-err");
 
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getMyInfo = (req, res, next) => {
@@ -84,9 +85,14 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const logout = (req, res) => {
+  return res.clearCookie("jwt").send({ message: "Cookies успешно удалены" });
+};
+
 module.exports = {
   getMyInfo,
   register,
   updateUser,
   login,
+  logout,
 };
