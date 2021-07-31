@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require('helmet');
-// const limiter = require('./middlewares/rateLimit');
+const limiter = require('./middlewares/rateLimit');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
@@ -14,10 +14,6 @@ const app = express();
 const { PORT = 3000 } = process.env;
 const { BASE_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 
-// const { login, register } = require("./controllers/users.js");
-// const { auth } = require("./middlewares/auth");
-// const usersRoutes = require("./routes/users.js");
-// const movieRoutes  =require("./routes/movies.js");
 const router = require('./routes/index');
 
 const NotFoundError = require("./errors/not-found-err");
@@ -35,7 +31,7 @@ mongoose.connection.on("error", (err) => console.log(`Ошибка ${err}`));
 app.use(cors());
 app.use(cookieParser());
 app.use(helmet());
-// app.use(limiter);
+app.use(limiter);
 
 app.use(bodyParser.json());
 app.use(
@@ -48,12 +44,6 @@ app.use(
 
 app.use(requestLogger);
 
-// app.post("/signup", register);
-// app.post("/signin", login);
-
-
-// app.use("/", auth, usersRoutes);
-// app.use("/", auth, movieRoutes);
 app.use(router);
 
 app.use(errorLogger);
