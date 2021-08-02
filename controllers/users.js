@@ -42,23 +42,33 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         throw new BadRequestError("Переданы некорректные данные");
-      } else next(err);
+      } else if (err.name === "MongoError" || err.code === 11000) {
+        throw new DubbleError("Пользователь с таким email уже зарегистрирован");
+      }
+      else next(err);
     })
     .catch(next);
 };
 
 const register = (req, res, next) => {
+
   const { name, email, password } = req.body;
+  if (!password || password.length < 5) {
+    throw new BadRequestError("Переданы некорректные данные");
+  }
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ name, email, password: hash }))
+
+    .then(({email}) => User.find({email}))
     .then((newUser) => res.send(newUser))
     .catch((err) => {
+
       if (err.name === "MongoError" || err.code === 11000) {
         throw new DubbleError("Пользователь с таким email уже зарегистрирован");
-      } else if (err.name === "ValidationError" || err.name === "CastError") {
+      } else  if (err.name === "ValidationError" || err.name === "CastError") {
         throw new BadRequestError("Переданы некорректные данные");
-      } else next(err);
+      } else  next(err);
     })
     .catch(next);
 };

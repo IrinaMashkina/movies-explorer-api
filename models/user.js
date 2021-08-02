@@ -24,10 +24,11 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
-    select: false
-  },
-});
+    required: [true, 'не указан пароль'],
+    select: false,
+    minlength: [5, 'пароль не может быть короче пяти символов'],
+
+}});
 
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password').then((user) => {
@@ -44,7 +45,7 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   });
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);
 
 // email — почта пользователя, по которой он регистрируется. Это обязательное поле, уникальное для каждого пользователя. Также оно должно валидироваться на соответствие схеме электронной почты.
 // password — хеш пароля. Обязательное поле-строка. Нужно задать поведение по умолчанию, чтобы база данных не возвращала это поле.

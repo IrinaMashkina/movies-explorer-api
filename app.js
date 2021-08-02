@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require('helmet');
-const limiter = require('./middlewares/rateLimit');
+// const limiter = require('./middlewares/rateLimit');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
@@ -31,7 +31,7 @@ mongoose.connection.on("error", (err) => console.log(`Ошибка ${err}`));
 app.use(cors());
 app.use(cookieParser());
 app.use(helmet());
-app.use(limiter);
+
 
 app.use(bodyParser.json());
 app.use(
@@ -43,7 +43,7 @@ app.use(
 
 
 app.use(requestLogger);
-
+// app.use(limiter);
 app.use(router);
 
 app.use(errorLogger);
