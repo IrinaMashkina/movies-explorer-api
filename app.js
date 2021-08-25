@@ -17,7 +17,7 @@ const { BASE_URL = "mongodb://localhost:27017/bitfilmsdb" } = process.env;
 const router = require("./routes/index");
 
 const NotFoundError = require("./errors/not-found-err");
-const ForbiddenError = require("./errors/forbidden-err");
+// const ForbiddenError = require("./errors/forbidden-err");
 
 const { errors } = require("celebrate");
 
@@ -31,21 +31,21 @@ mongoose.connect(BASE_URL, {
 mongoose.connection.on("connected", () => console.log("Mongodb connected"));
 mongoose.connection.on("error", (err) => console.log(`Ошибка ${err}`));
 
-const whiteList = "https://diploma-movies-explorer.nomoredomains.club";
-const corsOptions = {
-  origin(origin, callback) {
-    if (whiteList.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new ForbiddenError("Доступ к ресурсу запрещён"));
-    }
-  },
-  header: {
-    "Access-Control-Allow-Origin":"https://diploma-movies-explorer.nomoredomains.club"},
-    credentials: true,
-};
 
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://diploma-movies-explorer.nomoredomains.club");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+  );
+  if (req.method === "OPTIONS") {
+   return  res.sendStatus(200);
+  }
+  next();
+});
+
+app.use(cors());
 
 app.use(cookieParser());
 app.use(helmet());
