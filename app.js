@@ -31,19 +31,17 @@ mongoose.connect(BASE_URL, {
 mongoose.connection.on("connected", () => console.log("Mongodb connected"));
 mongoose.connection.on("error", (err) => console.log(`Ошибка ${err}`));
 
-const whitelist = [
-  "https://diploma-movies-explorer.nomoredomains.club",
-  "http://diploma-movies-explorer.nomoredomains.club",
-];
+const whiteList = "https://diploma-movies-explorer.nomoredomains.club";
 const corsOptions = {
   origin(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new ForbiddenError("Доступ к ресурсу запрещён"));
     }
   },
-  "Access-Control-Allow-Origin": "https://diploma-movies-explorer.nomoredomains.club",
+  header: {
+    "Access-Control-Allow-Origin":"https://diploma-movies-explorer.nomoredomains.club"},
     credentials: true,
 };
 
