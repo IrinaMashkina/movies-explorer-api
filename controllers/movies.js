@@ -5,7 +5,7 @@ const ForbiddenError = require("../errors/forbidden-err");
 const Movie = require("../models/movie");
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({owner: req.user._id})
     .then((movies) => {
       if (movies.length === 0) {
         res.send({ message:"Еще нет сохранённых фильмов" });
