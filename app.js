@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-// const limiter = require('./middlewares/rateLimit');
+const limiter = require('./middlewares/rateLimit');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
@@ -11,7 +11,7 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 
-const { PORT = 5000 } = process.env;
+const { PORT = 3000 } = process.env;
 const { BASE_URL = "mongodb://localhost:27017/bitfilmsdb" } = process.env;
 
 const router = require("./routes/index");
@@ -60,7 +60,7 @@ app.use(
 );
 
 app.use(requestLogger);
-// app.use(limiter);
+app.use(limiter);
 app.use(router);
 
 app.use(errorLogger);
