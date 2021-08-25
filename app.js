@@ -43,7 +43,7 @@ const corsOptions = {
       callback(new ForbiddenError("Доступ к ресурсу запрещён"));
     }
   },
-
+  "Access-Control-Allow-Origin": "https://diploma-movies-explorer.nomoredomains.club",
     credentials: true,
 };
 
