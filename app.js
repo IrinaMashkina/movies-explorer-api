@@ -33,7 +33,7 @@ mongoose.connection.on("error", (err) => console.log(`Ошибка ${err}`));
 
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://diploma-movies-explorer.nomoredomains.club");
+  res.header("Access-Control-Allow-Origin", "https://diploma-movies-explorer.nomoredomains.club/users/me");
   res.header("Access-Control-Allow-Headers", "*");
   res.header(
     "Access-Control-Allow-Methods",
