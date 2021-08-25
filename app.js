@@ -32,20 +32,19 @@ mongoose.connection.on("connected", () => console.log("Mongodb connected"));
 mongoose.connection.on("error", (err) => console.log(`Ошибка ${err}`));
 
 const whitelist = [
-  "http://localhost:3000",
-  "http://diploma-movies-explorer.nomoredomains.club",
   "https://diploma-movies-explorer.nomoredomains.club",
+  "http://diploma-movies-explorer.nomoredomains.club",
 ];
 const corsOptions = {
-  origin: (origin, callback) => {
+  origin(origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new ForbiddenError("Доступ к ресурсу запрещён"));
     }
   },
-  optionsSuccessStatus: 200,
-  credentials: true,
+
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
