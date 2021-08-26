@@ -84,25 +84,19 @@ const login = (req, res, next) => {
           expiresIn: "7d",
         }
       );
-      res
-        .cookie("jwt", token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-          sameSite: true,
-        })
-        .send({ token });
+      res.send({ token });
     })
     .catch(next);
 };
 
-const logout = (req, res) => {
-  return res.clearCookie("jwt").send({ message: "Cookies успешно удалены" });
-};
+// const logout = (req, res) => {
+//   return res.clearCookie("jwt").send({ message: "Cookies успешно удалены" });
+// };
 
 module.exports = {
   getMyInfo,
   register,
   updateUser,
   login,
-  logout,
+  // logout,
 };
