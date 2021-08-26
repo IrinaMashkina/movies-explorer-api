@@ -11,7 +11,7 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 
-const { PORT = 5000 } = process.env;
+const { PORT = 3000 } = process.env;
 const { BASE_URL = "mongodb://localhost:27017/bitfilmsdb" } = process.env;
 
 const router = require("./routes/index");
